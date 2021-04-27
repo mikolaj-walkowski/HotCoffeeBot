@@ -12,6 +12,8 @@
 #define MC21 12
 #define MC22 13
 
+String ssid, pswd;
+
 SoftwareSerial wifi2 = SoftwareSerial(RX1,TX1);
 SoftwareSerial wifi1 = SoftwareSerial(RX2,TX2);
 
@@ -27,7 +29,7 @@ String wyslij1(String komenda, int czas_czekania){
      aa+=a;
   }
   Serial.print(aa);
-  //wifi1.find("SadSpook\",");
+  //wifi1.find(ssid+"\",");
   //wifi1.readBytesUntil(",",odp,4);
   return odp;
 }
@@ -113,7 +115,7 @@ void setup() {
   delay(100);
   wifi1.println("AT+CWMODE=1");
   delay(100);
-  wifi1.println("AT+CWLAP=\"SadSpook\",\"amenoera\"");
+  wifi1.println("AT+CWLAP=\""+ ssid + "\",\""+ pswd +"\"");
   delay(5000);
    while(wifi1.available()>0){
      wifi1.read();
@@ -123,7 +125,7 @@ void setup() {
   delay(100);
   wifi2.println("AT+CWMODE=1");
   delay(100);
-  wifi2.println("AT+CWLAP=\"SadSpook\",\"amenoera\"");
+  wifi2.println("AT+CWLAP=\""+ ssid + "\",\""+ pswd +"\"");
   delay(5000);
    while(wifi2.available()>0){
      wifi2.read();
