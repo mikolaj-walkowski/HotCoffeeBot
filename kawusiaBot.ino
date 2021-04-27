@@ -16,8 +16,15 @@ String ssid, pswd;
 
 SoftwareSerial wifi2 = SoftwareSerial(RX1,TX1);
 SoftwareSerial wifi1 = SoftwareSerial(RX2,TX2);
-
-
+TODO wifi
+/**
+ * Funkcja ma zwracać moc odbieraną przez 1-szą antenę.
+ * 
+ *  Problemy:
+ * - Softwareserial port ma zbyt mały buffer(64? znaki) żeby zmieścić całą odpowiedź z ESP przez co musimy się łączyć za każdym razem na nowo (w tym przypadku krótsza odpowiedź).
+ * - Znaki z odpowiedzi czasem wychodzą pozmieniane np. a zaamiast 6 
+ * 
+ * */
 String wyslij1(String komenda, int czas_czekania){
   char odp[4]="1111";
   String aa="";
@@ -33,7 +40,9 @@ String wyslij1(String komenda, int czas_czekania){
   //wifi1.readBytesUntil(",",odp,4);
   return odp;
 }
-
+/**
+ * to samo dla drugiej anteny 
+ * */
 boolean wyslij2(String komenda, char *odpowiedz, int czas_czekania){
   wifi2.println(komenda);
   delay(czas_czekania);
@@ -44,7 +53,7 @@ boolean wyslij2(String komenda, char *odpowiedz, int czas_czekania){
   }
   return 0;
 }
-
+TODO wifiv2 
 int SignalStrenght1(){
   wifi2.begin(115200);
   while(!wifi2);
@@ -52,8 +61,13 @@ int SignalStrenght1(){
   Serial.println(wyslij1("AT+CWJAP?",7000));
   return 0;
 }
-
-
+TODO fwd
+/**
+ * Funkcja porusza lewy albo prawym silniekiem do przodu z daną prędkością (1 - 244?)
+ * 
+ * TODO Problemly:
+ * - Nie sprawadzałem czy piny są połączone w taki sam sposób więc lewy może być prawy a przód może być tyłem
+ * */
 void forward(String motor, int rate) {
   if (motor == "left")
   {
@@ -71,6 +85,13 @@ void forward(String motor, int rate) {
   }
 }
 
+TODO brk
+/**
+ * Hamuje dany silnik L/P
+ * 
+ * TODO Problemy:
+ * - Coś jest nie tak z hardwarem
+ * */
 void breaking(String motor) {
   if (motor == "left")
   {
@@ -87,7 +108,12 @@ void breaking(String motor) {
     digitalWrite(EN2, HIGH);
   }
 }
-
+TODO sonar
+/** 
+ * Zwraca odczyt z sonaru w cm 
+ *  Problemy:
+ * - W teorii działa ale jeszcze nie testowane
+ * */
 int measureDist(){
   digitalWrite(Trig, LOW);
   delayMicroseconds(2);
@@ -104,12 +130,13 @@ void setup() {
   pinMode(MC12, OUTPUT);
   pinMode(MC21, OUTPUT);
   pinMode(MC22, OUTPUT);
-  pinMode(Trig, OUTPUT); // Sets the trigPin as an OUTPUT
-  pinMode(Echo, INPUT); // Sets the echoPin as an INPUT
+  pinMode(Trig, OUTPUT); 
+  pinMode(Echo, INPUT); 
   pinMode(RX1,INPUT);
   pinMode(TX1, OUTPUT);
   pinMode(RX2,INPUT);
   pinMode(TX2, OUTPUT);
+  //Wszystkie rzeczy związane z wifi docelow tu nie będą 
   wifi1.begin(115200);
   wifi1.println("AT+RST");
   delay(100);
