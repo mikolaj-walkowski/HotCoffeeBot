@@ -3,65 +3,53 @@
 #define TX1 9
 #define RX2 11
 #define TX2 10
-#define Trig 6
-#define Echo 7
+#define Trig 7
+#define Echo 6
 #define EN1 3
 #define MC11 4
 #define MC12 2
 #define EN2 5
 #define MC21 12
 #define MC22 13
-
-String ssid, pswd;
-
-SoftwareSerial wifi2 = SoftwareSerial(RX1,TX1);
-SoftwareSerial wifi1 = SoftwareSerial(RX2,TX2);
-TODO wifi
+long duration;
+int distance;
+//String ssid, pswd;
+//SoftwareSerial wifis[] = {SoftwareSerial(RX1,TX1),SoftwareSerial(RX2,TX2)} ;
+//TODO wifi
 /**
  * Funkcja ma zwracać moc odbieraną przez 1-szą antenę.
  * 
  *  Problemy:
- * - Softwareserial port ma zbyt mały buffer(64? znaki) żeby zmieścić całą odpowiedź z ESP przez co musimy się łączyć za każdym razem na nowo (w tym przypadku krótsza odpowiedź).
  * - Znaki z odpowiedzi czasem wychodzą pozmieniane np. a zaamiast 6 
  * 
  * */
-String wyslij1(String komenda, int czas_czekania){
-  char odp[4]="1111";
-  String aa="";
-  char a;
-  wifi2.println(komenda);
-  delay(czas_czekania);
-  while(wifi2.available()>0){
-     a=wifi2.read();
-     aa+=a;
-  }
-  Serial.print(aa);
-  //wifi1.find(ssid+"\",");
-  //wifi1.readBytesUntil(",",odp,4);
-  return odp;
-}
-/**
- * to samo dla drugiej anteny 
- * */
-boolean wyslij2(String komenda, char *odpowiedz, int czas_czekania){
-  wifi2.println(komenda);
-  delay(czas_czekania);
-  while(wifi2.available()>0){
-    if(wifi2.find(odpowiedz)){
-      return 1;
-      }
-  }
-  return 0;
-}
-TODO wifiv2 
-int SignalStrenght1(){
-  wifi2.begin(115200);
-  while(!wifi2);
-  Serial.begin(115200);
-  Serial.println(wyslij1("AT+CWJAP?",7000));
-  return 0;
-}
-TODO fwd
+//String wyslij1(String command, int wait_time,int n){
+//  //char buff[1024] ={0};
+//  String buff;
+//  int readCount =0;
+//  wifis[n].begin(9600);
+//  delay(100);
+//   while(wifis[n].available()>0){
+//     wifis[n].read();
+//  }
+//  Serial.println("Setup done.");
+//  long startTime = millis();
+//  wifis[n].println(command);
+//  while(millis()-startTime < wait_time){
+//    if(wifis[n].available()>0)
+//      buff+=wifis[n].readStringUntil('\n')+'\n';
+//  }
+//  Serial.println(buff);
+//  Serial.println("Done.");
+//  wifis[n].end();
+//  return "Nic";
+//}
+
+//int SignalStrenght1(){
+//  wyslij1("AT+CWLAP",5000,0);
+//  return 0;
+//}
+//TODO fwd
 /**
  * Funkcja porusza lewy albo prawym silniekiem do przodu z daną prędkością (1 - 244?)
  * 
@@ -85,7 +73,7 @@ void forward(String motor, int rate) {
   }
 }
 
-TODO brk
+//TODO brk
 /**
  * Hamuje dany silnik L/P
  * 
@@ -108,7 +96,7 @@ void breaking(String motor) {
     digitalWrite(EN2, HIGH);
   }
 }
-TODO sonar
+//TODO sonar
 /** 
  * Zwraca odczyt z sonaru w cm 
  *  Problemy:
@@ -120,9 +108,12 @@ int measureDist(){
   digitalWrite(Trig, HIGH);
   delayMicroseconds(10);
   digitalWrite(Trig, LOW);
-  return pulseIn(Echo, HIGH) * 0.034 / 2; 
+  duration = pulseIn(Echo, HIGH);
+  distance = duration * 0.034 / 2; 
+  return distance; 
 }
 
+bool danger=false;
 void setup() {
   pinMode(EN1, OUTPUT);
   pinMode(EN2, OUTPUT);
@@ -137,33 +128,40 @@ void setup() {
   pinMode(RX2,INPUT);
   pinMode(TX2, OUTPUT);
   //Wszystkie rzeczy związane z wifi docelow tu nie będą 
-  wifi1.begin(115200);
-  wifi1.println("AT+RST");
-  delay(100);
-  wifi1.println("AT+CWMODE=1");
-  delay(100);
-  wifi1.println("AT+CWLAP=\""+ ssid + "\",\""+ pswd +"\"");
-  delay(5000);
-   while(wifi1.available()>0){
-     wifi1.read();
-  }
-  wifi2.begin(115200);
-  wifi2.println("AT+RST");
-  delay(100);
-  wifi2.println("AT+CWMODE=1");
-  delay(100);
-  wifi2.println("AT+CWLAP=\""+ ssid + "\",\""+ pswd +"\"");
-  delay(5000);
-   while(wifi2.available()>0){
-     wifi2.read();
-  }
   breaking("left");
   breaking("right");
-
-  SignalStrenght1();
+  Serial.begin(9600);
+  // for(int n=0 ; n<2 ; ++n){
+  //   Serial.println("Moduł wifi "+ String(n+1));
+  //   wifis[n].begin(152000);
+  //   delay(100);
+  //   wifis[n].println("AT+RST");
+  //   delay(100);
+  //   wifis[n].println("AT+IPR=9600");
+  //   delay(1000);
+  //   wifis[n].end();
+  //   wifis[n].begin(9600);
+  //   wifis[n].println("AT+CWMODE=1");
+  //   delay(100);
+  //   Serial.println(wifis[n].readString());
+  //   wifis[n].end();
+    // delay(1000);
+  //}
+  //SignalStrenght1();
+  forward("left",224);
+  forward("right",224);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-
+ if(!danger && measureDist()< 15){
+    breaking("left");
+    breaking("right");
+    danger=true;
+  }
+  if(danger && measureDist()>15){
+    forward("left",224);
+    forward("right",224);
+    danger = false;
+  }
+ 
 }
