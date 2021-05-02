@@ -49,12 +49,9 @@ int distance;
 //  wyslij1("AT+CWLAP",5000,0);
 //  return 0;
 //}
-//TODO fwd
+
 /**
  * Funkcja porusza lewy albo prawym silniekiem do przodu z daną prędkością (1 - 244?)
- * 
- * TODO Problemly:
- * - Nie sprawadzałem czy piny są połączone w taki sam sposób więc lewy może być prawy a przód może być tyłem
  * */
 void forward(String motor, int rate) {
   if (motor == "left")
@@ -73,12 +70,8 @@ void forward(String motor, int rate) {
   }
 }
 
-//TODO brk
 /**
- * Hamuje dany silnik L/P
- * 
- * TODO Problemy:
- * - Coś jest nie tak z hardwarem
+ * Hamuje dany silnik L/P\
  * */
 void breaking(String motor) {
   if (motor == "left")
@@ -96,11 +89,8 @@ void breaking(String motor) {
     digitalWrite(EN2, HIGH);
   }
 }
-//TODO sonar
 /** 
  * Zwraca odczyt z sonaru w cm 
- *  Problemy:
- * - W teorii działa ale jeszcze nie testowane
  * */
 int measureDist(){
   digitalWrite(Trig, LOW);
