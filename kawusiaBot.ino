@@ -69,6 +69,22 @@ void forward(String motor, int rate) {
     analogWrite(EN2, rate);
   }
 }
+void backward(String motor, int rate) {
+  if (motor == "left")
+  {
+    digitalWrite(EN1, LOW);
+    digitalWrite(MC11, LOW);
+    digitalWrite(MC12, HIGH);
+    analogWrite(EN1, rate);
+  }
+  else if (motor == "right")
+  {
+    digitalWrite(EN2, LOW);
+    digitalWrite(MC21, LOW);
+    digitalWrite(MC22, HIGH);
+    analogWrite(EN2, rate);
+  }
+}
 
 /**
  * Hamuje dany silnik L/P\
