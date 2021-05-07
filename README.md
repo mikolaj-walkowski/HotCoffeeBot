@@ -3,11 +3,11 @@ Semi-useless robot for ASK
 
 TODO:
 - Funkcja mierząca siłe/pozycję źródła
-- Funkcję która będzie pilnować żęby nie wwjebał się na ściany
-- Lepiej zamontować koła
+-  zamontować ekstra czujnik 
+-  zmodylikować funkcje do nie wjebywania się na ściany
+-  ogarnać schemat w eaglu 
 
 Propozycje: 
-- Dołożyć jeszcze jeden/dwa sonary
 - Przerobić funkcję sonaru tak żeby brała średnią z 10 próbek i ignorowała niezgodne odczyty (lepsza wiarygodość)
 
 =======SEKCJA CIERPIENIA UART========
