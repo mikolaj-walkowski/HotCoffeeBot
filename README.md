@@ -19,6 +19,7 @@ Semi-useless robot for ASK
 - [ ] dorobie przedni zderzak na ekstra sensory.
 - [ ] przerzuce tu (albo na dysk) zdjęcia robota i odległości bo troche się na nim pozmieniało.
 - [ ] zrobie płytkę pod usbasp jeszcze raz i zobacze czy coś się uda zrobić jeszcze z tamtą atmegą.
+- [ ] opiszę funkcje związane z wifi i je uporządkuje.
 
 ## Propozycje: 
 - Przerobić funkcję sonaru tak żeby brała średnią z 10 próbek i ignorowała niezgodne odczyty (lepsza wiarygodość)
