@@ -2,17 +2,27 @@
 Semi-useless robot for ASK
 
 ## TODO:
-- [ ] Funkcja mierząca siłe/pozycję źródła
-- [ ] zamontować ekstra czujnik 
+- [X] Funkcja mierząca siłe/pozycję źródła
+- [ ] zamontować ekstra czujniki 
 - [ ] zmodylikować funkcje do nie wjebywania się na ściany
-- [ ] ogarnać schemat w eaglu 
+- [ ] ogarnać schemat w eaglu
+- [ ] ogarnąć schemat do programowania arduino
+
+## Looking for help 
+- trzeba ulepszyć funkcje i kod do obliczania odległośći za pomocą rssi, narazie moim pomysłem jest zrobienie kilku pomiarów za pomocą anten (rssi/odległość) robota i wrzucić do octave-a żeby znarazl krzywe najlepszego dopasowania, ale inne propozycje też mile widziane (nie chazan zmontowanie filniku tak żeby działało to nie rozwiązanie).
+- AI robota aka. zczytanie odległości z czujników i wifi i podojmowanie decyzji na ich podstawie (tak porządnie).
+- ogarnianie podłączenia atmegi w celu jej zaprogramowania.
+
+## Pending:
+- [ ] zrobie schemat obecnych połączeń na arduino bo sam się już w nich gubię.
+- [ ] wrzuce w osobnym pliku .md obecny wzór na odległość i lepiej opiszę.
+- [ ] dorobie przedni zderzak na ekstra sensory.
+- [ ] przerzuce tu (albo na dysk) zdjęcia robota i odległości bo troche się na nim pozmieniało.
+- [ ] zrobie płytkę pod usbasp jeszcze raz i zobacze czy coś się uda zrobić jeszcze z tamtą atmegą.
 
 ## Propozycje: 
 - Przerobić funkcję sonaru tak żeby brała średnią z 10 próbek i ignorowała niezgodne odczyty (lepsza wiarygodość)
 
 ---
-## SEKCJA CIERPIENIA UART
-Problem z wifi jest łatwy do rozwiązania wystarczy zmienić szybkość Software serial z 115200 na 9600 i elo wyniki są czyste, ale trzeba to zrobić także na modułach wifi.
-- Komenda AT+IPR=9600 nie działa  i rozjebała software płytek.
-- Trzeba zrobić flusha obu płytek i ZAPROGRAMOWAĆ je na 9600 ew istneije też komenda AT+UART_DEF=9600,8,1,0,0 ona ponoć nie bricuje software-u
-- Re-flushowanie ESP8266 jest zagadnieniem pełnym magi i czarów będe wstawiał linki dalej z tego co zrobiłem i schematy okablowania jakby któryś z was miał pomysły.
+## ~~SEKCJA CIERPIENIA UART~~ zrobione 
+
