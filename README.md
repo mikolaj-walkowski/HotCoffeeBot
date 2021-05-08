@@ -24,6 +24,7 @@ Semi-useless robot for ASK
 ## Propozycje: 
 - Przerobić funkcję sonaru tak żeby brała średnią z 10 próbek i ignorowała niezgodne odczyty (lepsza wiarygodość)
 
+Ogólnie piszcie albo DM albo na grupie jak będziecie chcieli pomóc i mieli z czymś problem.
 ---
 ## ~~SEKCJA CIERPIENIA UART~~ zrobione 
 
