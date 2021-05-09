@@ -16,15 +16,10 @@
 #define MC22 13
 long duration;
 int distance;
-String ssid= "cus1", pswd = "cus";
+String ssid= "\"cus\"", pswd = "\"cus\"";
 SoftwareSerial wifis[] = {SoftwareSerial(RX1,TX1),SoftwareSerial(RX2,TX2)} ;
-//TODO wifi
-/**
- * Funkcja ma zwracać moc odbieraną przez 1-szą antenę.
- * 
- *  Problemy:
- * - Znaki z odpowiedzi czasem wychodzą pozmieniane np. a zaamiast 6 
- * 
+/** 
+ * Funkcja wysyła do danego esp 0 - lewy, 1 - prawy, daną komęde i po czasie czekania przekazuje odpowiedź
  * */
 String wyslij(String command, int wait_time,int n){
   String buff;
@@ -42,12 +37,18 @@ String wyslij(String command, int wait_time,int n){
   wifis[n].end();
   return  buff;
 }
+/**
+ * Funckkja porównująca stringi bo nie wierzyłem tej z arduino.
+ * */
 bool compare(const String &big, const int &s,const String &small){
   for(int i = 0; i< small.length() ; ++i ){
     if(big[i+s]!=small[i]) return false; 
   }
   return true;
 }
+/**
+ * Funkcja znajdująca w stringu string szukany od danego miejsca domyślnie 0
+ * */
 int fis(String in, String target, int i=0){
     for(; i< in.length()-target.length();++i){
         if(compare(in,i,target)){
@@ -56,25 +57,34 @@ int fis(String in, String target, int i=0){
   }
   return -1;
 }
-
+/**
+ * Funkcja przetwarza odpowiedź z esp
+ * */
 int rssi(String in){
   int start=0;
   for(int i=0; i<3 ; ++i) start = fis(in,",",start+1);
   String out = in.substring(start+1);
   return out.toInt();
 }
-
-int SignalStrenghtNoC(int n){
+/**
+ * Funkcja pomocnicza
+ * */
+int SignalStrenght(int n){
   return  rssi(wyslij("AT+CWJAP?",2000,n));
 }
+/**
+ * Funkcja licząca dystans z rssi
+ * */
 double wifiDist(int n){
-  int Signal = SignalStrenghtNoC(n);
+  int Signal = SignalStrenght(n);
   double out = 0.02 *pow(10, (-15.0 - Signal)/20);
   Serial.println("RSSI: "+String(Signal)+" Calculated dist: "+ String(out));
   return out;
 }
-
-void directionNoC(double* t){
+/**
+ * Funkcja liczy wektor do czelu narazie działa tylko X
+ * */
+void direction(double* t){
   double d02 = pow(wifiDist(0),2);
   Serial.println(d02);
   t[0] = ( d02 - pow(wifiDist(1),2))/24;
@@ -151,7 +161,10 @@ int measureDist(){
   distance = duration * 0.034 / 2; 
   return distance; 
 }
-void wifiSetupNoC(){
+/**
+ * Reset, zmiana trybu i łączenie z siecią
+ * */
+void wifiSetup(){
     for(int n=0 ; n<2 ; ++n){
     //  Serial.println("Moduł wifi "+ String(n+1));
      wifis[n].begin(9600);
@@ -191,8 +204,8 @@ void setup() {
   //Wszystkie rzeczy związane z wifi docelow tu nie będą 
   breaking("left");
   breaking("right");
-  wifiSetupNoC();
-  Serial.begin(9600);
+  wifiSetup();
+  Serial.begin(9600);//debug
 
   // SignalStrenght(0);
   // SignalStrenght(1);
@@ -210,7 +223,7 @@ void setup() {
 
 void loop() {
 if(run){
-  directionNoC(&vec[0]);
+  direction(&vec[0]);
   Serial.println("X: "+ String(vec[0])+" Y: "+String(vec[1]));
   if(vec[0]<-0.5){
     //forward("left",255);
