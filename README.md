@@ -5,7 +5,7 @@ Semi-useless robot for ASK
 - [X] Funkcja mierząca siłe/pozycję źródła
 - [ ] zamontować ekstra czujniki 
 - [ ] zmodylikować funkcje do nie wjebywania się na ściany
-- [ ] ogarnać schemat w eaglu
+- [ ] ogarnać schemat w eaglu (1/2)
 - [ ] ogarnąć schemat do programowania arduino
 
 ## Looking for help 
@@ -19,7 +19,7 @@ Semi-useless robot for ASK
 - [ ] zrobie przedni zderzak na ekstra sensory.
 - [ ] przerzuce tu (albo na dysk) zdjęcia robota i odległości bo troche się na nim pozmieniało.
 - [ ] zrobie płytkę pod usbasp jeszcze raz i zobacze czy coś się uda zrobić jeszcze z tamtą atmegą.
-- [ ] opiszę funkcje związane z wifi i je uporządkuje.
+- [X] opiszę funkcje związane z wifi i je uporządkuje.
 
 ## Propozycje: 
 - Przerobić funkcję sonaru tak żeby brała średnią z 10 próbek i ignorowała niezgodne odczyty (lepsza wiarygodość)
