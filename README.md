@@ -14,7 +14,7 @@ Semi-useless robot for ASK
 - ogarnianie podłączenia atmegi w celu jej zaprogramowania.
 
 ## Pending:
-- [ ] zrobie schemat obecnych połączeń na arduino bo sam się już w nich gubię.
+- [X] zrobie schemat obecnych połączeń na arduino bo sam się już w nich gubię.(niestety nie było płytek esp w eaglu więc macie same połączenia na arduino i mostek h)
 - [ ] wrzuce w osobnym pliku .md obecny wzór na odległość i lepiej opiszę.
 - [ ] dorobie przedni zderzak na ekstra sensory.
 - [ ] przerzuce tu (albo na dysk) zdjęcia robota i odległości bo troche się na nim pozmieniało.
