@@ -27,4 +27,20 @@ Semi-useless robot for ASK
     Ogólnie piszcie albo DM albo na grupie jak będziecie chcieli pomóc i mieli z czymś problem.
 ---
 ## ~~SEKCJA CIERPIENIA UART~~ zrobione 
+---
+## Obecny wzór na odległość - trzeba wprowadzić  do niego parametry i eksperymentalnie wyprowadzić
+## 
+
+$Db = 10* \log_{10}(W)$
+
+$Db = 10 *\log_{10}(\frac{V}{r^2})$
+
+$Db_{r0} - Db_{r1} = 10 * log_{10}(\frac{V}{r_0^2})- 10*log_{10}(\frac{V}{r_1^2}) $
+
+$\frac{\Delta Db}{10} = 2*log_{10}{\frac{r_1}{r_0}}$
+
+$10^\frac{\Delta Db}{20} = \frac{r1}{r0}$
+
+$r_1 = r_0*10^\frac{\Delta Db}{20} $
+
 
