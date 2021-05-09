@@ -15,8 +15,8 @@ Semi-useless robot for ASK
 
 ## Pending:
 - [X] zrobie schemat obecnych połączeń na arduino bo sam się już w nich gubię.(niestety nie było płytek esp w eaglu więc macie same połączenia na arduino i mostek h)
-- [ ] wrzuce w osobnym pliku .md obecny wzór na odległość i lepiej opiszę.
-- [ ] dorobie przedni zderzak na ekstra sensory.
+- [X] wrzuce w osobnym pliku .md obecny wzór na odległość i lepiej opiszę.
+- [ ] zrobie przedni zderzak na ekstra sensory.
 - [ ] przerzuce tu (albo na dysk) zdjęcia robota i odległości bo troche się na nim pozmieniało.
 - [ ] zrobie płytkę pod usbasp jeszcze raz i zobacze czy coś się uda zrobić jeszcze z tamtą atmegą.
 - [ ] opiszę funkcje związane z wifi i je uporządkuje.
