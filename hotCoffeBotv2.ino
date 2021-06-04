@@ -19,7 +19,7 @@
 
 unsigned long tStart;
 int rssi, rssiMAX;
-String ssid = "\"SadSpook\"", pswd = "\"amenoera\"";
+String ssid ;
 SoftwareSerial wifi = SoftwareSerial(RX2, TX2);
 enum States {
   AVOID,      //Zajmuje się unikaniem przeszkód
@@ -110,6 +110,20 @@ void breaking(String motor) {
     digitalWrite(EN2, HIGH);
   }
 }
+void rotateByAngle(double angle){
+  int onTime;
+  if(angle>0){
+    onTime = (angle / 80.0)*1000;
+    backward("right",200);
+    delay(onTime);
+    breaking("right"); 
+  }else{
+    onTime = -1 * (angle / 87.0)*1000; 
+    backward("left",200);
+    delay(onTime);
+    breaking("left"); 
+  }
+}
 void motorStop() {
   breaking("left");
   breaking("right");
@@ -117,9 +131,9 @@ void motorStop() {
 void goF() {
   forward("left", 180); //to powinno sprawić że nie będzie boksował w miejscu
   forward("right", 210);// Przy tak niskiej prędkości lubi stać w miejscu
-  delay(30); //delay i prędkości do góry do zmiany
-  forward("left", 140); // Im niższa prędkość tym lepiej dla nas wifi moażemy próbkować tylko co ok 110 sec.
-  forward("right", 170);
+  delay(10); //delay i prędkości do góry do zmiany
+  forward("left", 145); // Im niższa prędkość tym lepiej dla nas wifi moażemy próbkować tylko co ok 110 sec.
+  forward("right", 155);
 }
 long duration;
 int distance;
@@ -132,20 +146,6 @@ int measureDist() {
   duration = pulseIn(Echo, HIGH);
   distance = duration * 0.034 / 2;
   return distance;
-}
-void rotateByAngle(double angle) {
-  int onTime;
-  if (angle > 0) {
-    onTime = (angle / 65.0) * 1000;
-    backward("right", 200);
-    delay(onTime);
-    breaking("right");
-  } else {
-    onTime = -1 * (angle / 85.0) * 1000;
-    backward("left", 200);
-    delay(onTime);
-    breaking("left");
-  }
 }
 void wifiSetup() {
   String response;
@@ -186,10 +186,11 @@ void setup() {
   robot_state = SEEK;
   goF();
 }
-
+//Trzeba przśpie
 void loop() {
   switch (robot_state) {
     case REST:
+      motorStop();
       Serial.println("REST");
       break;
     case AVOID:
@@ -202,14 +203,19 @@ void loop() {
       rotateByAngle(-90);//wracam do oryginalnej orientacji
       while (tStart + moduleDelay > millis()) {}//czekam na odpowiedź modułu
       rssiMAX = recivedRSSI();//przyjmuje jako nowego maxa obecną wartość RSSI
+      if(rssiMAX>=threshold){
+        robot_state=REST;
+        break;
+      }
       goF();//Przygotowuje się do wejścia w stan waiting
       requestRSSI();
       robot_state = WAITING;
       break;
     case SEEK:
       Serial.println("SEEK");
-      if (rssi > threshold) { //jeżeli cel osiągnięty
+      if (rssi >= threshold) { //jeżeli cel osiągnięty
         robot_state = REST;
+        break;
       }
       Serial.println("rssiMax: " + String(rssiMAX) + " rssi: " + String(rssi));
       if (rssi + 2 > rssiMAX) { //jeżeli rssi ~> rssi MAX TD jeżeli ktoś ma lepszy pomysł na ignorowanie zakłóceń to pisać
