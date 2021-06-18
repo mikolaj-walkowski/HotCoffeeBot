@@ -17,7 +17,7 @@
 #define GREEN 8
 #define RED 7
 //Stałe  globalne
-#define moduleDelay 125 // chuj wie w testach wyszło że jest wmiarę równo co 106 
+#define moduleDelay 125 
 #define threshold -32
 
 
